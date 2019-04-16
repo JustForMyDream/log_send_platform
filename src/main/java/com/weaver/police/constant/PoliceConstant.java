@@ -12,11 +12,14 @@ public interface PoliceConstant {
 
     public static final String OPERATE_LOG  = "operate_log";//用户操作类型
 
-    public static final String INTERFACE_LOG_PREFIX  = "interface_log_";//redis接口类型前缀
+    public static final String INTERFACE_LOG_PREFIX  = "interfacelog.";//redis接口类型前缀
 
-    public static final String OPERATE_LOG_PREFIX  = "operate_log_";//redis用户操作类型前缀
+    public static final String OPERATE_LOG_PREFIX  = "operatelog.";//redis用户操作类型前缀
 
     public static final String OPERATE_LOG_CHANNEL  = "operate_log_channel";//redis  operate_log推送通道
 
     public static final String INTERFACE_LOG_CHANNEL  = "interface_log_channel";//redis interface_log推送通道
+
+
+    public static final String USER_LOGIN  = "/api/hrm/login/checkLogin";//redis
 }

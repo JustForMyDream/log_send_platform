@@ -39,6 +39,9 @@ public class JedisUtil {
     @Value("${spring.redis.expireTime}")
     private Integer expireTime;
 
+    @Value("spring.redis.prefix")
+    private String prefix;
+
     private static final Logger log = LoggerFactory.getLogger(JedisUtil.class);
 
 
@@ -91,6 +94,38 @@ public class JedisUtil {
 
     public String set(String key, String value) {
         return set(key, value, expireTime);
+    }
+
+    /**
+     * 设置自定义key前缀
+     * @param prefix
+     * @param key
+     * @param value
+     * @return
+     */
+    public String setPreFix(String prefix,String key,String value){
+        return set(prefix+key,value);
+    }
+
+    /**
+     * 设置带默认前缀的key
+     * @param key
+     * @param value
+     * @return
+     */
+    public String setPreFix(String key,String value){
+        return set(prefix+key,value);
+    }
+
+    /**
+     * 设置带默认前缀的key,缓存时间
+     * @param key
+     * @param value
+     * @param cacheSeconds
+     * @return
+     */
+    public String setPreFix(String key,String value,int cacheSeconds){
+        return set(prefix+key,value,cacheSeconds);
     }
 
     /**
