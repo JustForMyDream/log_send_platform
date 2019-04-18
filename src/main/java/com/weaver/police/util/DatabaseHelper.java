@@ -60,6 +60,12 @@ public class DatabaseHelper {
         }
     }
 
+    /**
+     * 执行更新操作
+     * @param sql
+     * @param params
+     * @return
+     */
     public static int excuteUpdate(String sql,Object ...params){
         int rows = 0;
         try {
@@ -68,6 +74,19 @@ public class DatabaseHelper {
             LOGGER.error("excute update failure",e);
             throw new RuntimeException(e);
         } finally {
+            closeConnection();
+        }
+        return rows;
+    }
+
+    public static int[] excuteBatch(String sql,Object [][]params){
+        int []rows = new int[params.length];
+        try {
+            QUERY_RUNNER.batch(getConnection(),sql,params);
+        } catch (SQLException e) {
+            LOGGER.error("excute update failure",e);
+            throw new RuntimeException(e);
+        }finally {
             closeConnection();
         }
         return rows;
@@ -103,6 +122,13 @@ public class DatabaseHelper {
         return excuteUpdate(sql,params) == 1;
     }
 
+    /**
+     * 数据插入
+     * @param tableName
+     * @param fieldMap
+     * @param <T>
+     * @return
+     */
     public  static <T> boolean insertEntity(String tableName,Map<String,Object> fieldMap){
         if(MapUtils.isEmpty(fieldMap)){
             LOGGER.error("can not insert entity:fieldMap is empty");
@@ -123,6 +149,36 @@ public class DatabaseHelper {
 
         Object[] params = fieldMap.values().toArray();
         return excuteUpdate(sql,params) == 1;
+    }
+
+    public  static <T> boolean insertEntityWithBatch(String tableName,Map<String,Object> fieldMap,Object [][]params){
+//        excuteBatch(getSql(tableName))
+        return true;
+    }
+
+    /**
+     * 获取sql
+     * @param tableName
+     * @param fieldMap
+     * @return
+     */
+    public static String getSql(String tableName,Map<String,Object> fieldMap){
+        if(MapUtils.isEmpty(fieldMap)){
+            LOGGER.error("can not insert entity:fieldMap is empty");
+            return "";
+        }
+        String sql = "insert into " + tableName;
+
+        StringBuilder columns = new StringBuilder("(");
+        StringBuilder values = new StringBuilder("(");
+        for(String fieldName : fieldMap.keySet()){
+            columns.append(fieldName).append(", ");
+            values.append("?, ");
+        }
+        columns.replace(columns.lastIndexOf(", "),columns.length(),")");
+        values.replace(values.lastIndexOf(","),values.length(),")");
+        sql += columns + " values" + values;
+        return sql;
     }
 
 
