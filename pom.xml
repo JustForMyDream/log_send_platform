@@ -96,6 +96,13 @@
             <version>1.1.10</version>
         </dependency>
 
+        <!--热部署-->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-devtools</artifactId>
+            <optional>true</optional> <!-- 这个需要为 true 热部署才有效 -->
+        </dependency>
+
 
         <!--达梦数据库-->
         <dependency>
@@ -143,7 +150,7 @@
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-war-plugin</artifactId>
                 <configuration>
-                    <warSourceExcludes>WEB-INF/**,cloudstore-app/**,react-app-parcel/**,react-next-app/**,react-next-mobile-app/**,react-test/**,react-test-mobile/**,vue-test-app/**,web/**,web4mobile/**,web4mobile1/**,web4mobile2/**</warSourceExcludes>
+                    <warSourceExcludes>WEB-INF/**</warSourceExcludes>
                     <webResources>
                         <resource>
                             <directory>${project.basedir}/src/lib/</directory>
