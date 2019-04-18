@@ -11,7 +11,7 @@ import com.alibaba.fastjson.JSONObject;
 import com.weaver.police.bean.InterfaceLog;
 import com.weaver.police.bean.OperateLog;
 import com.weaver.police.constant.PoliceConstant;
-import com.weaver.police.service.OperaterServcie;
+import com.weaver.police.service.SaveServcie;
 import com.weaver.police.util.JedisUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -21,9 +21,10 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
-import java.util.List;
-import java.util.Map;
+import javax.annotation.Resource;
+import java.time.LocalDate;
 import java.util.Set;
+import java.util.concurrent.Executor;
 
 @Configuration
 @EnableScheduling
@@ -31,10 +32,13 @@ import java.util.Set;
 public class RedisTask {
 
     @Autowired
-    private OperaterServcie operaterServcie;
+    private SaveServcie saveServcie;
 
     @Autowired
     private JedisUtil jedisUtil;
+
+    @Resource(name = "asyncServiceExecutor")
+    private Executor executor;
 
     private static final Logger LOGGER = LoggerFactory.getLogger(RedisTask.class);
 
@@ -48,6 +52,8 @@ public class RedisTask {
         Set<String> operateLogKeys = jedisUtil.getKeysByPrefix(PoliceConstant.OPERATE_LOG_PREFIX);
         Set<String> interfaceLogKeys = jedisUtil.getKeysByPrefix(PoliceConstant.INTERFACE_LOG_PREFIX);
 
+        System.currentTimeMillis();
+        Long startTime =System.currentTimeMillis();
         LOGGER.info("<======接收redis的数据======>");
         int operater_num = 0;
         int interface_num = 0;
@@ -56,13 +62,15 @@ public class RedisTask {
             String value = jedisUtil.get(key);
             OperateLog operateLog = JSONObject.parseObject(value,OperateLog.class);
             try {
-                boolean flag = operaterServcie.doSaveOperateLog(operateLog);
-                if(flag){
-                    jedisUtil.del(key);
-                }else {
-                    LOGGER.info("插入key【"+key+"】失败");
-                }
-
+//                boolean flag = saveServcie.doSaveOperateLog(operateLog);
+//                if(flag){
+//                    jedisUtil.del(key);
+//                }else {
+//                    LOGGER.info("插入key【"+key+"】失败");
+//                }
+                //启用线程池存数据
+                executor.execute(new SaveDataTask(saveServcie,operateLog));
+                jedisUtil.del(key);
                 operater_num ++;
             } catch (Exception e) {
                 e.printStackTrace();
@@ -74,18 +82,22 @@ public class RedisTask {
             String value = jedisUtil.get(key);
             InterfaceLog interfaceLog = JSONObject.parseObject(value,InterfaceLog.class);
             try {
-                boolean flag = operaterServcie.doSaveInterfaceLog(interfaceLog);
-                if(flag){
-                    jedisUtil.del(key);
-                }else {
-                    LOGGER.info("插入key【"+key+"】失败");
-                }
-
+//                boolean flag = saveServcie.doSaveInterfaceLog(interfaceLog);
+//                if(flag){
+//
+//                }else {
+//                    LOGGER.info("插入key【"+key+"】失败");
+//                }
+                executor.execute(new SaveDataTask(saveServcie,interfaceLog));
+                jedisUtil.del(key);
                 interface_num ++;
             } catch (Exception e) {
                 e.printStackTrace();
             }
         }
         LOGGER.info("<======存入【"+interface_num+"】条【interface_log】数据======>");
+        Long end =System.currentTimeMillis();
+
+        LOGGER.info("<======共计耗时【"+(end -startTime)+"】======>");;
     }
 }

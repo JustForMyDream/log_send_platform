@@ -1,12 +1,18 @@
 package com.weaver.police;
 
 import com.alibaba.fastjson.JSONObject;
+import com.weaver.police.bean.DataLogBean;
+import com.weaver.police.bean.InterfaceLog;
+import com.weaver.police.bean.OperateLog;
 import com.weaver.police.bean.UserInfo;
+import com.weaver.police.util.DbPoolConnection;
 import com.weaver.police.util.EncryptUtil;
 import org.junit.Test;
 
 import java.sql.*;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /*
@@ -73,9 +79,9 @@ public class TestDB {
 //
 //        System.out.println(sql);
 
-        String str = "/ABC/abcjsjdas";
-
-        String key = "a745baf0-424c-45a1-9070-622a6a4c5db6";
+//        String str = "/ABC/abcjsjdas";
+//
+//        String key = "a745baf0-424c-45a1-9070-622a6a4c5db6";
 
 //        System.out.println(EncryptUtil.getInstance().DESencode(str,key));
 //        System.out.println(EncryptUtil.getInstance().DESdecode("F7C487CFA0AE4FC1999444B46B6FD3D0",key));
@@ -88,12 +94,78 @@ public class TestDB {
         userInfo.setCertificatenum("510623199511206521");
         userInfo.setDepartmentcode("110");
         userInfo.setSubcompanycode("110");
+
         System.out.println(JSONObject.toJSONString(userInfo));
-        System.out.println(EncryptUtil.getInstance().DESencode(JSONObject.toJSONString(userInfo),key));
-        System.out.println(EncryptUtil.getInstance().DESencode("1555313732072",key));
-        System.out.println(EncryptUtil.getInstance().DESencode("api/add",key));
-        System.out.println(EncryptUtil.getInstance().DESencode("1",key));
-        System.out.println(EncryptUtil.getInstance().DESencode("192.168.2.112",key));
+        System.out.println("haha");
+        System.out.println("1555487926459");
+        System.out.println("1");
+        System.out.println("sdasdas");
+
+
+        System.out.println(EncryptUtil.getInstance().Base64Encode(JSONObject.toJSONString(userInfo)));
+        System.out.println(EncryptUtil.getInstance().Base64Encode("haha"));
+        System.out.println(EncryptUtil.getInstance().Base64Encode("1555487926459"));
+        System.out.println(EncryptUtil.getInstance().Base64Encode("1"));
+        System.out.println(EncryptUtil.getInstance().Base64Encode("sdasdas"));
+//
+//        List<OperateLog> list = new ArrayList<>();
+//
+//        for(int i = 0;i < 20;i ++){
+//            OperateLog operateLog = new OperateLog();
+//            operateLog.setOPERATE_TIME("1555487926459");
+//            operateLog.setOPERATE_TYPE((short) 1);
+//            operateLog.setOPERATE_RESULT("1");
+//            operateLog.setTERMINAL_ID("192.168.42.246");
+//
+//            list.add(operateLog);
+//        }
+//
+//
+//        List<InterfaceLog> interfaceLogList = new ArrayList<>();
+//
+//
+//        for(int i = 0;i < 20;i ++){
+//            InterfaceLog interfaceLog = new InterfaceLog();
+//            interfaceLog.setREQUESTER("ecology");
+//            interfaceLog.setINTERFACE_TIME("1555487926459");
+//            interfaceLog.setINTERFACE_RESULT("1");
+//            interfaceLog.setINTERFACE_CONDITION("name=张三");
+//            interfaceLog.setTERMINAL_ID("192.168.42.246");
+//            interfaceLogList.add(interfaceLog);
+//
+//        }
+//
+//
+//        DataLogBean dataLogBean = new DataLogBean();
+//        dataLogBean.setUserInfo(JSONObject.toJSONString(userInfo));
+//        dataLogBean.setOperateLog(JSONObject.toJSONString(list));
+//        dataLogBean.setInterfaceLog(JSONObject.toJSONString(interfaceLogList));
+
+//        Map<String,Object> map = new HashMap<>();
+//        map.put("data",dataLogBean);
+
+//        System.out.println(JSONObject.toJSON(dataLogBean).toString());
+//
+//        System.out.println(EncryptUtil.getInstance().Base64Encode(JSONObject.toJSON(dataLogBean).toString()));
+
+
+
+
+//        System.out.println(JSONObject.toJSONString(userInfo));
+//        System.out.println(EncryptUtil.getInstance().DESencode(JSONObject.toJSONString(userInfo),key));
+//        System.out.println(EncryptUtil.getInstance().DESencode("1555313732072",key));
+//        System.out.println(EncryptUtil.getInstance().DESencode("api/add",key));
+//        System.out.println(EncryptUtil.getInstance().DESencode("1",key));
+//        System.out.println(EncryptUtil.getInstance().Base64Encode("1"));
+//        System.out.println(EncryptUtil.getInstance().DESdecode("0316F512BFA69712",key));
+//        System.out.println(EncryptUtil.getInstance().DESencode("192.168.2.112",key));
+
+    }
+
+    @Test
+    public void testLoad(){
+
+//        DbPoolConnection.loadPropertyFile("durid.properties");
 
     }
 

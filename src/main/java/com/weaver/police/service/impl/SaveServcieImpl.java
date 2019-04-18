@@ -4,7 +4,7 @@ import com.weaver.police.bean.InterfaceLog;
 import com.weaver.police.bean.OperateLog;
 import com.weaver.police.dao.InterfaceLogDao;
 import com.weaver.police.dao.OperateLogDao;
-import com.weaver.police.service.OperaterServcie;
+import com.weaver.police.service.SaveServcie;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -16,13 +16,14 @@ import org.springframework.stereotype.Service;
  * @Description :
  **/
 @Service
-public class OperaterServcieImpl implements OperaterServcie {
+public class SaveServcieImpl implements SaveServcie {
 
     @Autowired
     private OperateLogDao operateLogDao;
 
     @Autowired
     private InterfaceLogDao interfaceLogDao;
+
 
     @Override
     public boolean doSaveOperateLog(OperateLog operateLog) throws Exception {

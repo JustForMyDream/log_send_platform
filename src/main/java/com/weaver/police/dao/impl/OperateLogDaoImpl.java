@@ -6,8 +6,10 @@ import com.weaver.police.util.DatabaseHelper;
 import com.weaver.police.util.DbPoolConnection;
 import com.weaver.police.util.ObjectUtil;
 import org.apache.commons.dbutils.QueryRunner;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
+import javax.annotation.PostConstruct;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.Map;
@@ -22,12 +24,21 @@ import java.util.UUID;
 @Service
 public class OperateLogDaoImpl implements OperateLogDao {
 
-    private static final String tableName = "\"SYSDBA\".\"OPERATE_LOG\"";
+//    private static final String tableName = "\"SYSDBA\".\"OPERATE_LOG\"";
+    @Value("${operate.log}")
+    private String tableName;
+
+    private static String stableName;
+
+    @PostConstruct
+    public void init(){
+        stableName = tableName;
+    }
 
     @Override
     public boolean insert(OperateLog operateLog) throws Exception {
         Map<String,Object> dataMap = ObjectUtil.objectToMap(operateLog);
-        boolean flag = DatabaseHelper.insertEntity(tableName,dataMap);
+        boolean flag = DatabaseHelper.insertEntity(stableName,dataMap);
         return flag;
     }
 }

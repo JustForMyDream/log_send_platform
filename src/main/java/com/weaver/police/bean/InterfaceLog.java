@@ -10,7 +10,7 @@ public class InterfaceLog implements Serializable {
 
     private String REG_ID;//应用标识
 
-    private String USER_ID;//用户标识
+    private String USER_ID = "-1";//用户标识
 
     private String ORGANIZATION;//单位名称
 
@@ -45,6 +45,8 @@ public class InterfaceLog implements Serializable {
     private String SENDID;
 
     private static final long serialVersionUID = 1L;
+
+    public InterfaceLog(){}
 
     public InterfaceLog(String NUM_ID, String REG_ID, String TERMINAL_ID, String INTERFACE_TIME, String REQUESTER, String INTERFACE_RESULT, String INTERFACE_CONDITION) {
         this.NUM_ID = NUM_ID;

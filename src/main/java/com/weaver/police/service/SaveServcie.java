@@ -12,7 +12,7 @@ import org.springframework.stereotype.Component;
  * @Description :
  **/
 @Component
-public interface OperaterServcie {
+public interface SaveServcie {
 
     public boolean doSaveOperateLog(OperateLog operateLog) throws Exception;
 

@@ -9,7 +9,7 @@ public class OperateLog implements Serializable {
 
     private String REG_ID;//应用标识
 
-    private String USER_ID;//用户标识
+    private String USER_ID = "-1";//用户标识
 
     private String ORGANIZATION;//单位名称
 
@@ -44,6 +44,8 @@ public class OperateLog implements Serializable {
     private String SENDID;
 
     private static final long serialVersionUID = 1L;
+
+    public OperateLog(){}
 
     public OperateLog(String NUM_ID, String REG_ID, String USER_ID, String ORGANIZATION, String USER_NAME, String TERMINAL_ID, String OPERATE_TIME, Short OPERATE_TYPE, String OPERATE_RESULT) {
         this.NUM_ID = NUM_ID;

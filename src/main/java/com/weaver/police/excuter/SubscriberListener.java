@@ -4,7 +4,7 @@ import com.alibaba.fastjson.JSONObject;
 import com.weaver.police.bean.InterfaceLog;
 import com.weaver.police.bean.OperateLog;
 import com.weaver.police.constant.PoliceConstant;
-import com.weaver.police.service.OperaterServcie;
+import com.weaver.police.service.SaveServcie;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -25,19 +25,19 @@ public class SubscriberListener extends JedisPubSub {
     private static final Logger LOGGER = LoggerFactory.getLogger(SubscriberListener.class);
 
     @Autowired
-    private OperaterServcie operaterServcie;
+    private SaveServcie saveServcie;
 
     @Override
     public void onMessage(String channel, String message) {
         if(StringUtils.equals(channel,PoliceConstant.OPERATE_LOG_CHANNEL)){ //监听用户操作
             try {
-                operaterServcie.doSaveOperateLog(JSONObject.parseObject(message,OperateLog.class));
+                saveServcie.doSaveOperateLog(JSONObject.parseObject(message,OperateLog.class));
             } catch (Exception e) {
                 e.printStackTrace();
             }
         }else if(StringUtils.equals(channel,PoliceConstant.OPERATE_LOG_CHANNEL)){ //监听接口服务
             try {
-                operaterServcie.doSaveInterfaceLog(JSONObject.parseObject(message,InterfaceLog.class));
+                saveServcie.doSaveInterfaceLog(JSONObject.parseObject(message,InterfaceLog.class));
             } catch (Exception e) {
                 e.printStackTrace();
             }

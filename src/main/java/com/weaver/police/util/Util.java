@@ -21,6 +21,11 @@ public class Util {
 
     }
 
+    public static String null2String(Object s,String def) {
+        return s == null ? def : s.toString();
+
+    }
+
     public static Long getLong(String s) {
         return getLong(s,0);
 

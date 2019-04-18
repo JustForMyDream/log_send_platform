@@ -10,19 +10,40 @@
     </parent>
     <groupId>com.weaver</groupId>
     <artifactId>police</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
+    <version>0</version>
     <name>police</name>
     <packaging>war</packaging>
     <description>Demo project for Spring Boot</description>
-
     <properties>
         <java.version>1.8</java.version>
     </properties>
+
+
+    <repositories>
+        <repository>
+            <id>maven-central</id>
+            <name>maven-central</name>
+            <url>http://120.26.73.27:8081/repository/maven-public/</url>
+            <snapshots>
+                <enabled>true</enabled>
+            </snapshots>
+            <releases>
+                <enabled>true</enabled>
+            </releases>
+        </repository>
+    </repositories>
+
 
     <dependencies>
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
+            <exclusions>
+                <exclusion>
+                    <artifactId>log4j-over-slf4j</artifactId>
+                    <groupId>org.slf4j</groupId>
+                </exclusion>
+            </exclusions>
         </dependency>
         <dependency>
             <groupId>org.mybatis.spring.boot</groupId>
@@ -85,6 +106,21 @@
             <systemPath>${project.basedir}/src/lib/Dm7JdbcDriver16.jar</systemPath>
         </dependency>
 
+        <dependency>
+            <groupId>com.orcale</groupId>
+            <artifactId>OJdbcDriver</artifactId>
+            <version>6</version>
+            <scope>system</scope>
+            <systemPath>${project.basedir}/src/lib/ojdbc6.jar</systemPath>
+        </dependency>
+
+
+        <!--orcale数据库-->
+        <!-- 添加oracle jdbc driver -->
+        <!-- https://mvnrepository.com/artifact/com.oracle/ojdbc14 -->
+
+
+
         <!-- https://mvnrepository.com/artifact/commons-dbutils/commons-dbutils -->
         <dependency>
             <groupId>commons-dbutils</groupId>
@@ -102,6 +138,32 @@
 
     <build>
         <plugins>
+
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-war-plugin</artifactId>
+                <configuration>
+                    <warSourceExcludes>WEB-INF/**,cloudstore-app/**,react-app-parcel/**,react-next-app/**,react-next-mobile-app/**,react-test/**,react-test-mobile/**,vue-test-app/**,web/**,web4mobile/**,web4mobile1/**,web4mobile2/**</warSourceExcludes>
+                    <webResources>
+                        <resource>
+                            <directory>${project.basedir}/src/lib/</directory>
+                            <targetPath>WEB-INF/lib</targetPath>
+                            <includes>
+                                <include>**/*.jar</include>
+                            </includes>
+                        </resource>
+                    </webResources>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+                <configuration>
+                    <jvmArguments>-Dfile.encoding=UTF-8</jvmArguments>
+                    <fork>true</fork>
+                </configuration>
+            </plugin>
+
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>

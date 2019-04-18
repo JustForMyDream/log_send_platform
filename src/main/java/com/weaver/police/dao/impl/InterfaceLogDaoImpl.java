@@ -4,8 +4,10 @@ import com.weaver.police.bean.InterfaceLog;
 import com.weaver.police.dao.InterfaceLogDao;
 import com.weaver.police.util.DatabaseHelper;
 import com.weaver.police.util.ObjectUtil;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
+import javax.annotation.PostConstruct;
 import java.util.Map;
 
 /*
@@ -17,7 +19,18 @@ import java.util.Map;
 @Service
 public class InterfaceLogDaoImpl implements InterfaceLogDao {
 
-    private static final String tableName = "\"SYSDBA\".\"INTERFACE_LOG\"";
+//    private static final String tableName = "\"SYSDBA\".\"INTERFACE_LOG\"";
+//    private static final String tableName = "ECOLOGY.INTERFACE_LOG";
+
+    @Value("${interface.log}")
+    private String tableName;
+
+    private static String stableName;
+
+    @PostConstruct
+    public void init(){
+        stableName = tableName;
+    }
 
     @Override
     public boolean insert(InterfaceLog interfaceLog) throws Exception {

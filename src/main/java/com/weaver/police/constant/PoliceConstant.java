@@ -22,4 +22,14 @@ public interface PoliceConstant {
 
 
     public static final String USER_LOGIN  = "/api/hrm/login/checkLogin";//redis
+
+    public static final String TIMER_TASK = "0";
+
+    public static final String INSTANT_TASK = "1";
+
+    public static final String OK = "ok";
+
+    public static final String FAIL = "fail";
+
+
 }

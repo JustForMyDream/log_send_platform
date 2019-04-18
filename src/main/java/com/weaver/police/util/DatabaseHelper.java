@@ -73,7 +73,15 @@ public class DatabaseHelper {
         return rows;
     }
 
-    public  static <T> boolean insertEntity(String tableName,Map<String,Object> fieldMap){
+
+    /**
+     * 适配达梦数据库，插入实体
+     * @param tableName
+     * @param fieldMap
+     * @param <T>
+     * @return
+     */
+    public  static <T> boolean insertEntityWithDM(String tableName,Map<String,Object> fieldMap){
         if(MapUtils.isEmpty(fieldMap)){
             LOGGER.error("can not insert entity:fieldMap is empty");
             return false;
@@ -94,6 +102,29 @@ public class DatabaseHelper {
         Object[] params = fieldMap.values().toArray();
         return excuteUpdate(sql,params) == 1;
     }
+
+    public  static <T> boolean insertEntity(String tableName,Map<String,Object> fieldMap){
+        if(MapUtils.isEmpty(fieldMap)){
+            LOGGER.error("can not insert entity:fieldMap is empty");
+            return false;
+        }
+
+        String sql = "insert into " + tableName;
+
+        StringBuilder columns = new StringBuilder("(");
+        StringBuilder values = new StringBuilder("(");
+        for(String fieldName : fieldMap.keySet()){
+            columns.append(fieldName).append(", ");
+            values.append("?, ");
+        }
+        columns.replace(columns.lastIndexOf(", "),columns.length(),")");
+        values.replace(values.lastIndexOf(","),values.length(),")");
+        sql += columns + " values" + values;
+
+        Object[] params = fieldMap.values().toArray();
+        return excuteUpdate(sql,params) == 1;
+    }
+
 
 
     public static String getTableName(Class<?> entityClass){
