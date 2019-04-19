@@ -8,6 +8,8 @@ import com.weaver.police.service.SaveServcie;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 
 /*
  * @Author      :wyl
@@ -31,7 +33,17 @@ public class SaveServcieImpl implements SaveServcie {
     }
 
     @Override
-    public boolean doSaveInterfaceLog(InterfaceLog operateLog) throws Exception {
-        return interfaceLogDao.insert(operateLog);
+    public boolean doSaveInterfaceLog(InterfaceLog interfaceLog) throws Exception {
+        return interfaceLogDao.insert(interfaceLog);
+    }
+
+    @Override
+    public boolean doSaveOperateLog(List<OperateLog> operateLogs) throws Exception {
+        return operateLogDao.insertWithBatch(operateLogs);
+    }
+
+    @Override
+    public boolean doSaveInterfaceLog(List<InterfaceLog> interfaceLogs) throws Exception {
+        return interfaceLogDao.insertWithBatch(interfaceLogs);
     }
 }

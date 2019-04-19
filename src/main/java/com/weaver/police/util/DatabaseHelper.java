@@ -7,6 +7,7 @@ import org.slf4j.LoggerFactory;
 
 import java.sql.Connection;
 import java.sql.SQLException;
+import java.util.List;
 import java.util.Map;
 
 /*
@@ -151,9 +152,27 @@ public class DatabaseHelper {
         return excuteUpdate(sql,params) == 1;
     }
 
-    public  static <T> boolean insertEntityWithBatch(String tableName,Map<String,Object> fieldMap,Object [][]params){
-//        excuteBatch(getSql(tableName))
-        return true;
+    public  static <T> boolean insertEntityWithBatch(String tableName, List<Map<String,Object>> fieldMap){
+        if(fieldMap.size() <=0){
+            LOGGER.error("can not insert entity:fieldMap is empty");
+            return false;
+        }
+        String sql = getSql(tableName,fieldMap.get(0));
+
+        int size = fieldMap.size();
+        int objSize = fieldMap.get(0).size();
+        Object [][]params = new Object[size][];
+        for(int i = 0; i< size; i ++){
+            params[i] = new Object[objSize];
+            Map<String,Object> value = fieldMap.get(i);
+            for (Map.Entry<String,Object> entry: value.entrySet()){
+                int j = 0;
+                params[i][j] = entry.getValue();
+                j++;
+            }
+        }
+
+        return excuteBatch(sql,params).length > 0;
     }
 
     /**

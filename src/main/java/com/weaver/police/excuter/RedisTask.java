@@ -69,8 +69,9 @@ public class RedisTask {
 //                    LOGGER.info("插入key【"+key+"】失败");
 //                }
                 //启用线程池存数据
-                executor.execute(new SaveDataTask(saveServcie,operateLog));
-                jedisUtil.del(key);
+
+//                executor.execute(new SaveDataTask(saveServcie,operateLog));
+//                jedisUtil.del(key);
                 operater_num ++;
             } catch (Exception e) {
                 e.printStackTrace();

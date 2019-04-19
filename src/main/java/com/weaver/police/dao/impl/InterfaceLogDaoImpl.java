@@ -8,6 +8,8 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.PostConstruct;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 /*
@@ -37,5 +39,17 @@ public class InterfaceLogDaoImpl implements InterfaceLogDao {
         Map<String,Object> dataMap = ObjectUtil.objectToMap(interfaceLog);
         boolean flag = DatabaseHelper.insertEntity(tableName,dataMap);
         return flag;
+    }
+
+    @Override
+    public boolean insertWithBatch(List<InterfaceLog> interfaceLogs) throws Exception {
+        List<Map<String,Object>> list = new ArrayList<>();
+        int size = interfaceLogs.size();
+        for(int i = 0;i < size; i ++){
+            InterfaceLog interfaceLog = interfaceLogs.get(i);
+            Map<String,Object> dataMap = ObjectUtil.objectToMap(interfaceLog);
+            list.add(dataMap);
+        }
+        return DatabaseHelper.insertEntityWithBatch(stableName,list);
     }
 }
