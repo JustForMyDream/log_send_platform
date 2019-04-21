@@ -38,7 +38,7 @@ public class OperateLogDaoImpl implements OperateLogDao {
     }
 
     @Override
-    public boolean insert(OperateLog operateLog) throws Exception {
+    public boolean  insert(OperateLog operateLog) throws Exception {
         Map<String,Object> dataMap = ObjectUtil.objectToMap(operateLog);
         boolean flag = DatabaseHelper.insertEntity(stableName,dataMap);
         return flag;
