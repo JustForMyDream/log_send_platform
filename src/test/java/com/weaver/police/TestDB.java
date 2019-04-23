@@ -173,6 +173,8 @@ public class TestDB {
     @Test
     public void testCreate(){
         System.out.println(DatabaseHelper.createSeqByDate("test-"));
+
+        System.out.println(DatabaseHelper.createTiggerByDate("test-","ecology"));
     }
 
 

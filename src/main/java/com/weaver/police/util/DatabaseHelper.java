@@ -232,7 +232,7 @@ public class DatabaseHelper {
     public static String createSeqByDate(String prefix){
 
         StringBuilder sb = new StringBuilder();
-        sb.append("CREATE  SEQUENCE " + prefix +DateUtil.getSringDateWithNotTime()).append(wrap);
+        sb.append("CREATE  SEQUENCE " + "seq_"+prefix +DateUtil.getSringDateWithNotTime()).append(wrap);
         sb.append("INCREMENT BY 1 ").append(wrap);
         sb.append("START WITH 1 ").append(wrap);
         sb.append("NOMAXVALUE ").append(wrap);
@@ -252,9 +252,11 @@ public class DatabaseHelper {
         StringBuilder sb = new StringBuilder();
 
         sb.append("CREATE OR REPLACE TRIGGER " + prefix +DateUtil.getSringDateWithNotTime()).append(wrap);
-        sb.append("before insert on " + tableName + " for each row");
-
-        return "";
+        sb.append("before insert on " + tableName + " for each row").append(wrap);
+        sb.append("begin ").append(wrap);
+        sb.append("select seq_"+prefix+DateUtil.getSringDateWithNotTime()+".nextval into :new.datax_id from dual; ").append(wrap);
+        sb.append("end;").append(wrap);
+        return new String(sb);
     }
 
 
