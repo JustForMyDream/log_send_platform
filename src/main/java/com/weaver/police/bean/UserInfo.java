@@ -4,7 +4,7 @@ package com.weaver.police.bean;
  * @Author      :wyl
  * @Date        :2019/4/16  16:29
  * @Version 1.0 :
- * @Description :
+ * @Description :用户信息
  **/
 public class UserInfo {
 

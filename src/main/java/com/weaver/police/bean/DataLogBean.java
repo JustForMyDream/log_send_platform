@@ -6,7 +6,7 @@ import java.util.List;
  * @Author      :wyl
  * @Date        :2019/4/17  14:44
  * @Version 1.0 :
- * @Description :
+ * @Description :批量插入数据的bean
  **/
 public class DataLogBean {
 

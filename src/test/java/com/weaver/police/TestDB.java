@@ -5,6 +5,7 @@ import com.weaver.police.bean.DataLogBean;
 import com.weaver.police.bean.InterfaceLog;
 import com.weaver.police.bean.OperateLog;
 import com.weaver.police.bean.UserInfo;
+import com.weaver.police.util.DatabaseHelper;
 import com.weaver.police.util.DbPoolConnection;
 import com.weaver.police.util.EncryptUtil;
 import org.junit.Test;
@@ -167,6 +168,11 @@ public class TestDB {
 
 //        DbPoolConnection.loadPropertyFile("durid.properties");
 
+    }
+
+    @Test
+    public void testCreate(){
+        System.out.println(DatabaseHelper.createSeqByDate("test-"));
     }
 
 

@@ -7,6 +7,7 @@ import org.slf4j.LoggerFactory;
 
 import java.sql.Connection;
 import java.sql.SQLException;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -25,6 +26,8 @@ public class DatabaseHelper {
     private static final QueryRunner QUERY_RUNNER;
 
     private static final String sep = "\"";
+
+    private static final String wrap = "\n";
 
     static {
         CONNECTION_HOLDER = new ThreadLocal<Connection>();
@@ -124,7 +127,7 @@ public class DatabaseHelper {
     }
 
     /**
-     * 数据插入
+     * 通用数据插入
      * @param tableName
      * @param fieldMap
      * @param <T>
@@ -152,6 +155,13 @@ public class DatabaseHelper {
         return excuteUpdate(sql,params) == 1;
     }
 
+    /**
+     * 批量插入数据处理
+     * @param tableName
+     * @param fieldMap
+     * @param <T>
+     * @return
+     */
     public  static <T> boolean insertEntityWithBatch(String tableName, List<Map<String,Object>> fieldMap){
         if(fieldMap.size() <=0){
             LOGGER.error("can not insert entity:fieldMap is empty");
@@ -165,8 +175,8 @@ public class DatabaseHelper {
         for(int i = 0; i< size; i ++){
             params[i] = new Object[objSize];
             Map<String,Object> value = fieldMap.get(i);
+            int j = 0;
             for (Map.Entry<String,Object> entry: value.entrySet()){
-                int j = 0;
                 params[i][j] = entry.getValue();
                 j++;
             }
@@ -198,6 +208,53 @@ public class DatabaseHelper {
         values.replace(values.lastIndexOf(","),values.length(),")");
         sql += columns + " values" + values;
         return sql;
+    }
+
+    /**
+     *通过日期创建表
+     * @param date
+     * @return
+     */
+    public static String createTableByDate(Date date,Object object){
+
+        StringBuilder sb = new StringBuilder();
+        sb.append("create table ");
+
+
+        return "";
+    }
+
+    /**
+     *通过时间创建序列
+     * @param prefix
+     * @return
+     */
+    public static String createSeqByDate(String prefix){
+
+        StringBuilder sb = new StringBuilder();
+        sb.append("CREATE  SEQUENCE " + prefix +DateUtil.getSringDateWithNotTime()).append(wrap);
+        sb.append("INCREMENT BY 1 ").append(wrap);
+        sb.append("START WITH 1 ").append(wrap);
+        sb.append("NOMAXVALUE ").append(wrap);
+        sb.append("NOCYCLE ").append(wrap);
+        sb.append("NOCACHE ").append(wrap);
+        return new String(sb);
+    }
+
+    /**
+     * 通过时间创建触发器
+     * @param prefix
+     * @param tableName
+     * @return
+     */
+    public static String createTiggerByDate(String prefix,String tableName){
+
+        StringBuilder sb = new StringBuilder();
+
+        sb.append("CREATE OR REPLACE TRIGGER " + prefix +DateUtil.getSringDateWithNotTime()).append(wrap);
+        sb.append("before insert on " + tableName + " for each row");
+
+        return "";
     }
 
 

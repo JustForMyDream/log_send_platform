@@ -13,6 +13,8 @@ import com.weaver.police.service.SaveServcie;
 import com.weaver.police.util.JedisUtil;
 import org.springframework.stereotype.Component;
 
+import java.util.List;
+
 public class SaveDataTask implements Runnable {
 
     private SaveServcie saveServcie;
@@ -20,6 +22,10 @@ public class SaveDataTask implements Runnable {
     private OperateLog operateLog;
 
     private InterfaceLog interfaceLog;
+
+    private List<OperateLog> operateLogList;
+
+    private List<InterfaceLog> interfaceLogList;
 
 
     public SaveDataTask(SaveServcie saveServcie, OperateLog operateLog) {
@@ -31,6 +37,13 @@ public class SaveDataTask implements Runnable {
         this.saveServcie = saveServcie;
         this.interfaceLog = interfaceLog;
     }
+
+    public SaveDataTask(SaveServcie saveServcie, List<OperateLog> operateLogList) {
+        this.saveServcie = saveServcie;
+        this.operateLogList = operateLogList;
+    }
+
+
 
     @Override
     public void run() {

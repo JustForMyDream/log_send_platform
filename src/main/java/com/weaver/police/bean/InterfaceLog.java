@@ -228,4 +228,29 @@ public class InterfaceLog implements Serializable {
         this.SENDID = SENDID == null ? null : SENDID.trim();
         return this;
     }
+
+    @Override
+    public String toString() {
+        return "InterfaceLog{" +
+                "NUM_ID='" + NUM_ID + '\'' +
+                ", REG_ID='" + REG_ID + '\'' +
+                ", USER_ID='" + USER_ID + '\'' +
+                ", ORGANIZATION='" + ORGANIZATION + '\'' +
+                ", ORGANIZATION_ID='" + ORGANIZATION_ID + '\'' +
+                ", USER_NAME='" + USER_NAME + '\'' +
+                ", TERMINAL_ID='" + TERMINAL_ID + '\'' +
+                ", INTERFACE_TIME='" + INTERFACE_TIME + '\'' +
+                ", REQUESTER='" + REQUESTER + '\'' +
+                ", INTERFACE_RESULT='" + INTERFACE_RESULT + '\'' +
+                ", ERROR_CODE='" + ERROR_CODE + '\'' +
+                ", INTERFACE_NAME='" + INTERFACE_NAME + '\'' +
+                ", INTERFACE_CONDITION='" + INTERFACE_CONDITION + '\'' +
+                ", INTERFACE_NUMBER=" + INTERFACE_NUMBER +
+                ", INTERFACE_TABLE='" + INTERFACE_TABLE + '\'' +
+                ", INTERFACE_KEY='" + INTERFACE_KEY + '\'' +
+                ", INSERT_TIME=" + INSERT_TIME +
+                ", COLLECT_TYPE='" + COLLECT_TYPE + '\'' +
+                ", SENDID='" + SENDID + '\'' +
+                '}';
+    }
 }

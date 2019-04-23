@@ -70,9 +70,14 @@ public class RedisTask {
             operater_num ++;
         }
         try {
-            saveServcie.doSaveOperateLog(operateLogList);
-            for (String key : operateLogKeys){
-                jedisUtil.del(key);
+            boolean flag =  saveServcie.doSaveOperateLog(operateLogList);
+            if(flag){
+                for (String key : operateLogKeys){
+                    jedisUtil.del(key);
+                }
+                LOGGER.info("<======存入【"+interface_num+"】条【interface_log】数据======>");
+            }else {
+                LOGGER.info("插入数据失败");
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -107,10 +112,16 @@ public class RedisTask {
             interface_num ++;
         }
         try {
-            saveServcie.doSaveInterfaceLog(interfaceLogList);
-            for (String key : operateLogKeys){
-                jedisUtil.del(key);
+            boolean flag = saveServcie.doSaveInterfaceLog(interfaceLogList);
+            if(flag){
+                for (String key : interfaceLogKeys){
+                    jedisUtil.del(key);
+                }
+                LOGGER.info("<======存入【"+interface_num+"】条【interface_log】数据======>");
+            }else {
+                LOGGER.info("插入数据失败");
             }
+
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -132,9 +143,9 @@ public class RedisTask {
 //                e.printStackTrace();
 //            }
 //        }
-        LOGGER.info("<======存入【"+interface_num+"】条【interface_log】数据======>");
+
         Long end =System.currentTimeMillis();
 
-        LOGGER.info("<======共计耗时【"+(end -startTime)+"】======>");;
+        LOGGER.info("<======共计耗时【"+(end -startTime)/1000+"】秒======>");;
     }
 }
