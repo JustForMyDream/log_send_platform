@@ -128,10 +128,12 @@ public class SecurtityAction {
                     .setUSER_NAME(userInfo.getLastname());
 
             status = sendService.setMessage(PoliceConstant.INTERFACE_LOG_PREFIX,JSONObject.toJSONString(interfaceLog));
+            return RestResponse.result(status);
         } catch (Exception e) {
             return RestResponse.error(500,"JSON转换失败");
         }
-        return RestResponse.result(status);
+
+
     }
 
     /**
@@ -182,12 +184,14 @@ public class SecurtityAction {
                 if(!StringUtils.equalsIgnoreCase(PoliceConstant.OK,status)){
                     status = PoliceConstant.FAIL;
                 }
+
             }
+            return RestResponse.result(status);
         }catch (Exception e){
             return RestResponse.error(500,"JSON转换失败");
         }
 
-        return RestResponse.result(status);
+
     }
 
 

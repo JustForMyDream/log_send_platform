@@ -7,6 +7,7 @@ import org.slf4j.LoggerFactory;
 
 import java.sql.Connection;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -27,7 +28,6 @@ public class DatabaseHelper {
 
     private static final String sep = "\"";
 
-    private static final String wrap = "\n";
 
     static {
         CONNECTION_HOLDER = new ThreadLocal<Connection>();
@@ -209,56 +209,6 @@ public class DatabaseHelper {
         sql += columns + " values" + values;
         return sql;
     }
-
-    /**
-     *通过日期创建表
-     * @param date
-     * @return
-     */
-    public static String createTableByDate(Date date,Object object){
-
-        StringBuilder sb = new StringBuilder();
-        sb.append("create table ");
-
-
-        return "";
-    }
-
-    /**
-     *通过时间创建序列
-     * @param prefix
-     * @return
-     */
-    public static String createSeqByDate(String prefix){
-
-        StringBuilder sb = new StringBuilder();
-        sb.append("CREATE  SEQUENCE " + "seq_"+prefix +DateUtil.getSringDateWithNotTime()).append(wrap);
-        sb.append("INCREMENT BY 1 ").append(wrap);
-        sb.append("START WITH 1 ").append(wrap);
-        sb.append("NOMAXVALUE ").append(wrap);
-        sb.append("NOCYCLE ").append(wrap);
-        sb.append("NOCACHE ").append(wrap);
-        return new String(sb);
-    }
-
-    /**
-     * 通过时间创建触发器
-     * @param prefix
-     * @param tableName
-     * @return
-     */
-    public static String createTiggerByDate(String prefix,String tableName){
-
-        StringBuilder sb = new StringBuilder();
-
-        sb.append("CREATE OR REPLACE TRIGGER " + prefix +DateUtil.getSringDateWithNotTime()).append(wrap);
-        sb.append("before insert on " + tableName + " for each row").append(wrap);
-        sb.append("begin ").append(wrap);
-        sb.append("select seq_"+prefix+DateUtil.getSringDateWithNotTime()+".nextval into :new.datax_id from dual; ").append(wrap);
-        sb.append("end;").append(wrap);
-        return new String(sb);
-    }
-
 
 
     public static String getTableName(Class<?> entityClass){

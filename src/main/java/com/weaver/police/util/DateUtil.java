@@ -28,4 +28,12 @@ public class DateUtil {
         String dateString = formatter.format(currentTime);
         return dateString;
     }
+
+
+    public static String getSringDateWithUnderline(){
+        Date currentTime = new Date();
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+        String dateString = formatter.format(currentTime).replace("-","_");
+        return dateString;
+    }
 }

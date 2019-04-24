@@ -49,7 +49,7 @@ public class RedisTask {
      * 一分钟执行一次
      */
     @Scheduled(fixedRate = 60000*1)
-    public void excute(){
+    public void execute(){
 
         Set<String> operateLogKeys = jedisUtil.getKeysByPrefix(PoliceConstant.OPERATE_LOG_PREFIX);
         Set<String> interfaceLogKeys = jedisUtil.getKeysByPrefix(PoliceConstant.INTERFACE_LOG_PREFIX);

@@ -27,34 +27,34 @@ public class TestDB {
 
     @Test
     public void test(){
-//        String driver= "dm.jdbc.driver.DmDriver";
-//        String url= "jdbc:dm://localhost:5236/DAMENG";
-//        String username="SYSDBA";
-//        String password="123456789";
-//        Connection con = null;
-//        try {
-//            Class.forName(driver);
-//        } catch (java.lang.ClassNotFoundException e) {
-//            e.printStackTrace();
-//        }
-//
-//        try {
-//// 数据库连接
-//            con = DriverManager.getConnection(url, username, password);
-//
-//            Statement st=con.createStatement();
-//
-//            ResultSet rs=st.executeQuery("select \"ID\",\"NUM_ID\",\"REG_ID\",\"USER_ID\",\"ORGANIZATION\",\"ORGANIZATION_ID\",\"USER_NAME\",\"TERMINAL_ID\",\"OPERATE_TIME\",\"OPERATE_TYPE\",\"OPERATE_RESULT\",\"ERROR_CODE\",\"OPERATE_NAME\",\"OPERATE_CONDITION\",\"OPERATE_NUMBER\",\"OPERATE_TABLE\",\"OPERATE_KEY\",\"INSERT_TIME\",\"COLLECT_TYPE\",\"SENDID\"\n" +
-//                    "from \"SYSDBA\".\"OPERATE_LOG\"");
-//
-//           while (rs.next()){
-//               System.out.println(rs.getString("ID"));
-//               System.out.println(rs.getString("OPERATE_TIME"));
-//           }
-//
-//        } catch (SQLException ex) {
-//            ex.printStackTrace();
-//        }
+        String driver= "dm.jdbc.driver.DmDriver";
+        String url= "jdbc:dm://localhost:5236/DAMENG";
+        String username="SYSDBA";
+        String password="123456789";
+        Connection con = null;
+        try {
+            Class.forName(driver);
+        } catch (java.lang.ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+
+        try {
+// 数据库连接
+            con = DriverManager.getConnection(url, username, password);
+
+            Statement st=con.createStatement();
+
+            ResultSet rs=st.executeQuery("select \"ID\",\"NUM_ID\",\"REG_ID\",\"USER_ID\",\"ORGANIZATION\",\"ORGANIZATION_ID\",\"USER_NAME\",\"TERMINAL_ID\",\"OPERATE_TIME\",\"OPERATE_TYPE\",\"OPERATE_RESULT\",\"ERROR_CODE\",\"OPERATE_NAME\",\"OPERATE_CONDITION\",\"OPERATE_NUMBER\",\"OPERATE_TABLE\",\"OPERATE_KEY\",\"INSERT_TIME\",\"COLLECT_TYPE\",\"SENDID\"\n" +
+                    "from \"SYSDBA\".\"OPERATE_LOG\"");
+
+           while (rs.next()){
+               System.out.println(rs.getString("ID"));
+               System.out.println(rs.getString("OPERATE_TIME"));
+           }
+
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
 //
 //      Connection connection = DBManager.getConnection();
 //
@@ -172,9 +172,19 @@ public class TestDB {
 
     @Test
     public void testCreate(){
-        System.out.println(DatabaseHelper.createSeqByDate("test-"));
+//        System.out.println(DatabaseHelper.createSeqByDate("test-"));
+//
+//        System.out.println(DatabaseHelper.createTiggerByDate("test-","ecology"));
 
-        System.out.println(DatabaseHelper.createTiggerByDate("test-","ecology"));
+
+
+        List<String> list = new ArrayList<>();
+        list.add("  id                  NUMBER(20) not null,");
+        list.add("  num_id              varchar2(32) not null,");
+        list.add("  sendid              VARCHAR2(320)");
+
+//        System.out.println(DatabaseHelper.createTableByDate("test",list));
+//        System.out.println(DatabaseHelper.execute("test",list,"log"));
     }
 
 
