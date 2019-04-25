@@ -14,7 +14,27 @@ import java.util.List;
 @Component
 public interface OperateLogDao {
 
+    /**
+     * 单个对象插入
+     * @param operateLog
+     * @return
+     * @throws Exception
+     */
     public boolean insert(OperateLog operateLog) throws Exception;
 
+    /**
+     * 批量插入
+     * @param operateLogs
+     * @return
+     * @throws Exception
+     */
     public boolean insertWithBatch(List<OperateLog> operateLogs) throws Exception;
+
+    /**
+     * 根据日期批量插入数据
+     * @param operateLogs
+     * @return
+     * @throws Exception
+     */
+    public boolean insertWithBatchAndDay(List<OperateLog> operateLogs) throws Exception;
 }

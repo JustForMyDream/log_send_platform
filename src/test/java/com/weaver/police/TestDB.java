@@ -8,6 +8,7 @@ import com.weaver.police.bean.UserInfo;
 import com.weaver.police.util.DatabaseHelper;
 import com.weaver.police.util.DbPoolConnection;
 import com.weaver.police.util.EncryptUtil;
+import com.weaver.police.util.TableUtil;
 import org.junit.Test;
 
 import java.sql.*;
@@ -185,6 +186,20 @@ public class TestDB {
 
 //        System.out.println(DatabaseHelper.createTableByDate("test",list));
 //        System.out.println(DatabaseHelper.execute("test",list,"log"));
+    }
+
+
+    @Test
+    public void testTableUtil(){
+       Connection connection =  TableUtil.getConnection();
+       String sql = "select * from ECOLOGY.OPERATE_LOG_2019_04_25";
+        try {
+            Statement statement = connection.createStatement();
+            ResultSet resultSet =  statement.executeQuery(sql);
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 
 

@@ -46,4 +46,14 @@ public class SaveServcieImpl implements SaveServcie {
     public boolean doSaveInterfaceLog(List<InterfaceLog> interfaceLogs) throws Exception {
         return interfaceLogDao.insertWithBatch(interfaceLogs);
     }
+
+    @Override
+    public boolean doSaveOperateLogWithDay(List<OperateLog> operateLogs) throws Exception {
+        return operateLogDao.insertWithBatchAndDay(operateLogs);
+    }
+
+    @Override
+    public boolean doSaveInterfaceLogWithDay(List<InterfaceLog> interfaceLogs) throws Exception {
+        return interfaceLogDao.insertWithBatchAndDay(interfaceLogs);
+    }
 }

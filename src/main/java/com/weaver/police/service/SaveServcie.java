@@ -24,5 +24,9 @@ public interface SaveServcie {
 
     public boolean doSaveInterfaceLog(List<InterfaceLog> interfaceLogs) throws Exception;
 
+    public boolean doSaveOperateLogWithDay(List<OperateLog> operateLogs) throws Exception;
+
+    public boolean doSaveInterfaceLogWithDay(List<InterfaceLog> interfaceLogs) throws Exception;
+
 
 }

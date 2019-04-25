@@ -1,10 +1,12 @@
 package com.weaver.police.dao.impl;
 
 import com.weaver.police.bean.OperateLog;
+import com.weaver.police.constant.PoliceConstant;
 import com.weaver.police.dao.OperateLogDao;
 import com.weaver.police.util.DatabaseHelper;
 import com.weaver.police.util.DbPoolConnection;
 import com.weaver.police.util.ObjectUtil;
+import com.weaver.police.util.TableUtil;
 import org.apache.commons.dbutils.QueryRunner;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -54,5 +56,17 @@ public class OperateLogDaoImpl implements OperateLogDao {
             list.add(dataMap);
         }
         return DatabaseHelper.insertEntityWithBatch(stableName,list);
+    }
+
+    @Override
+    public boolean insertWithBatchAndDay(List<OperateLog> operateLogs) throws Exception {
+        List<Map<String,Object>> list = new ArrayList<>();
+        int size = operateLogs.size();
+        for(int i = 0;i < size; i ++){
+            OperateLog operateLog = operateLogs.get(i);
+            Map<String,Object> dataMap = ObjectUtil.objectToMap(operateLog);
+            list.add(dataMap);
+        }
+        return DatabaseHelper.insertEntityWithBatch(TableUtil.getTableNameByDate(PoliceConstant.OPERATE_LOG),list);
     }
 }

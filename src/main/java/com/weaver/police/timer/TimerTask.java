@@ -1,4 +1,4 @@
-package com.weaver.police.excuter;
+package com.weaver.police.timer;
 
 /*
  * @Author      :wyl
@@ -13,6 +13,8 @@ import com.weaver.police.bean.OperateLog;
 import com.weaver.police.constant.PoliceConstant;
 import com.weaver.police.service.SaveServcie;
 import com.weaver.police.util.JedisUtil;
+import com.weaver.police.util.TableUtil;
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,7 +24,6 @@ import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
@@ -31,7 +32,7 @@ import java.util.concurrent.Executor;
 @Configuration
 @EnableScheduling
 @Component
-public class RedisTask {
+public class TimerTask {
 
     @Autowired
     private SaveServcie saveServcie;
@@ -42,14 +43,48 @@ public class RedisTask {
     @Resource(name = "asyncServiceExecutor")
     private Executor executor;
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(RedisTask.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(TimerTask.class);
 
 
     /**
-     * 一分钟执行一次
+     * 创建表,每天0点执行
+     */
+    @Scheduled(cron = "0 0 0 * * ?")
+//    @Scheduled(fixedRate = 60000*10)
+    public void executeCreateTable(){
+
+        List tableList = TableUtil.getTableList(PoliceConstant.OPERATE_LOG);
+
+        LOGGER.info("<=============定时创建表开始============>");
+        boolean flag1 = TableUtil.execute(PoliceConstant.OPERATE_LOG,tableList,PoliceConstant.OPERATE_LOG);
+        boolean flag2 = TableUtil.execute(PoliceConstant.INTERFACE_LOG,tableList,PoliceConstant.INTERFACE_LOG);
+        if(flag1){
+            LOGGER.info("<=============定时创建表成功============>");
+            LOGGER.info("创建表sql：\n"+TableUtil.createTableByDate(PoliceConstant.OPERATE_LOG,tableList));
+            LOGGER.info("创建序列seq：\n"+TableUtil.createSeqByDate(PoliceConstant.OPERATE_LOG));
+            LOGGER.info("创建触发器tigger：\n"+TableUtil.createTiggerByDate(PoliceConstant.OPERATE_LOG,PoliceConstant.OPERATE_LOG));
+        }else {
+            LOGGER.info("<=============定时创建表失败============>");
+        }
+
+        if(flag2){
+            LOGGER.info("<=============定时创建表成功============>");
+            LOGGER.info("创建表sql：\n"+TableUtil.createTableByDate(PoliceConstant.INTERFACE_LOG,tableList));
+            LOGGER.info("创建序列seq：\n"+TableUtil.createSeqByDate(PoliceConstant.INTERFACE_LOG));
+            LOGGER.info("创建触发器tigger：\n"+TableUtil.createTiggerByDate(PoliceConstant.INTERFACE_LOG,PoliceConstant.INTERFACE_LOG));
+        }else {
+            LOGGER.info("<=============定时创建表失败============>");
+        }
+
+    }
+
+
+
+    /**
+     * 存储数据
      */
     @Scheduled(fixedRate = 60000*1)
-    public void execute(){
+    public void executeSaveDate(){
 
         Set<String> operateLogKeys = jedisUtil.getKeysByPrefix(PoliceConstant.OPERATE_LOG_PREFIX);
         Set<String> interfaceLogKeys = jedisUtil.getKeysByPrefix(PoliceConstant.INTERFACE_LOG_PREFIX);
@@ -70,7 +105,7 @@ public class RedisTask {
             operater_num ++;
         }
         try {
-            boolean flag =  saveServcie.doSaveOperateLog(operateLogList);
+            boolean flag =  saveServcie.doSaveOperateLogWithDay(operateLogList);
             if(flag){
                 for (String key : operateLogKeys){
                     jedisUtil.del(key);
@@ -112,7 +147,7 @@ public class RedisTask {
             interface_num ++;
         }
         try {
-            boolean flag = saveServcie.doSaveInterfaceLog(interfaceLogList);
+            boolean flag = saveServcie.doSaveInterfaceLogWithDay(interfaceLogList);
             if(flag){
                 for (String key : interfaceLogKeys){
                     jedisUtil.del(key);

@@ -1,6 +1,7 @@
 package com.weaver.police.dao.impl;
 
 import com.weaver.police.bean.InterfaceLog;
+import com.weaver.police.constant.PoliceConstant;
 import com.weaver.police.dao.InterfaceLogDao;
 import com.weaver.police.util.DatabaseHelper;
 import com.weaver.police.util.ObjectUtil;
@@ -51,5 +52,17 @@ public class InterfaceLogDaoImpl implements InterfaceLogDao {
             list.add(dataMap);
         }
         return DatabaseHelper.insertEntityWithBatch(stableName,list);
+    }
+
+    @Override
+    public boolean insertWithBatchAndDay(List<InterfaceLog> interfaceLogs) throws Exception {
+        List<Map<String,Object>> list = new ArrayList<>();
+        int size = interfaceLogs.size();
+        for(int i = 0;i < size; i ++){
+            InterfaceLog interfaceLog = interfaceLogs.get(i);
+            Map<String,Object> dataMap = ObjectUtil.objectToMap(interfaceLog);
+            list.add(dataMap);
+        }
+        return DatabaseHelper.insertEntityWithBatch(PoliceConstant.INTERFACE_LOG,list);
     }
 }

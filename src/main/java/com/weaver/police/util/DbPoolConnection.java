@@ -65,7 +65,7 @@ public class DbPoolConnection {
         webRootPath = DbPoolConnection.class.getClassLoader().getResource("")
                 .getPath();
 
-//        webRootPath = webRootPath.substring(1,webRootPath.length() - 1);
+        webRootPath = webRootPath.substring(1,webRootPath.length() - 1);
 
 //        webRootPath = new File(webRootPath).getParent();
         InputStream inputStream = null;
