@@ -33,7 +33,7 @@ public class DateUtil {
     public static String getSringDateWithUnderline(){
         Date currentTime = new Date();
         SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
-        String dateString = formatter.format(currentTime).replace("-","_");
+        String dateString = formatter.format(currentTime).replace("-","");
         return dateString;
     }
 }

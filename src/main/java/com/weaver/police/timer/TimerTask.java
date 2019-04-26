@@ -49,34 +49,34 @@ public class TimerTask {
     /**
      * 创建表,每天0点执行
      */
-    @Scheduled(cron = "0 0 0 * * ?")
+//    @Scheduled(cron = "0 0 0 * * ?")
 //    @Scheduled(fixedRate = 60000*10)
-    public void executeCreateTable(){
-
-        List tableList = TableUtil.getTableList(PoliceConstant.OPERATE_LOG);
-
-        LOGGER.info("<=============定时创建表开始============>");
-        boolean flag1 = TableUtil.execute(PoliceConstant.OPERATE_LOG,tableList,PoliceConstant.OPERATE_LOG);
-        boolean flag2 = TableUtil.execute(PoliceConstant.INTERFACE_LOG,tableList,PoliceConstant.INTERFACE_LOG);
-        if(flag1){
-            LOGGER.info("<=============定时创建表成功============>");
-            LOGGER.info("创建表sql：\n"+TableUtil.createTableByDate(PoliceConstant.OPERATE_LOG,tableList));
-            LOGGER.info("创建序列seq：\n"+TableUtil.createSeqByDate(PoliceConstant.OPERATE_LOG));
-            LOGGER.info("创建触发器tigger：\n"+TableUtil.createTiggerByDate(PoliceConstant.OPERATE_LOG,PoliceConstant.OPERATE_LOG));
-        }else {
-            LOGGER.info("<=============定时创建表失败============>");
-        }
-
-        if(flag2){
-            LOGGER.info("<=============定时创建表成功============>");
-            LOGGER.info("创建表sql：\n"+TableUtil.createTableByDate(PoliceConstant.INTERFACE_LOG,tableList));
-            LOGGER.info("创建序列seq：\n"+TableUtil.createSeqByDate(PoliceConstant.INTERFACE_LOG));
-            LOGGER.info("创建触发器tigger：\n"+TableUtil.createTiggerByDate(PoliceConstant.INTERFACE_LOG,PoliceConstant.INTERFACE_LOG));
-        }else {
-            LOGGER.info("<=============定时创建表失败============>");
-        }
-
-    }
+//    public void executeCreateTable(){
+//
+//        List tableList = TableUtil.getTableList(PoliceConstant.OPERATE_LOG);
+//
+//        LOGGER.info("<=============定时创建表开始============>");
+//        boolean flag1 = TableUtil.execute(PoliceConstant.OPERATE_LOG,tableList,PoliceConstant.OPERATE_LOG);
+//        boolean flag2 = TableUtil.execute(PoliceConstant.INTERFACE_LOG,tableList,PoliceConstant.INTERFACE_LOG);
+//        if(flag1){
+//            LOGGER.info("<=============定时创建表成功============>");
+//            LOGGER.info("创建表sql：\n"+TableUtil.createTableByDate(PoliceConstant.OPERATE_LOG,tableList));
+//            LOGGER.info("创建序列seq：\n"+TableUtil.createSeqByDate(PoliceConstant.OPERATE_LOG));
+//            LOGGER.info("创建触发器tigger：\n"+TableUtil.createTiggerByDate(PoliceConstant.OPERATE_LOG,PoliceConstant.OPERATE_LOG));
+//        }else {
+//            LOGGER.info("<=============定时创建表失败============>");
+//        }
+//
+//        if(flag2){
+//            LOGGER.info("<=============定时创建表成功============>");
+//            LOGGER.info("创建表sql：\n"+TableUtil.createTableByDate(PoliceConstant.INTERFACE_LOG,tableList));
+//            LOGGER.info("创建序列seq：\n"+TableUtil.createSeqByDate(PoliceConstant.INTERFACE_LOG));
+//            LOGGER.info("创建触发器tigger：\n"+TableUtil.createTiggerByDate(PoliceConstant.INTERFACE_LOG,PoliceConstant.INTERFACE_LOG));
+//        }else {
+//            LOGGER.info("<=============定时创建表失败============>");
+//        }
+//
+//    }
 
 
 
@@ -105,7 +105,7 @@ public class TimerTask {
             operater_num ++;
         }
         try {
-            boolean flag =  saveServcie.doSaveOperateLogWithDay(operateLogList);
+            boolean flag =  saveServcie.doSaveOperateLog(operateLogList);
             if(flag){
                 for (String key : operateLogKeys){
                     jedisUtil.del(key);
@@ -147,7 +147,7 @@ public class TimerTask {
             interface_num ++;
         }
         try {
-            boolean flag = saveServcie.doSaveInterfaceLogWithDay(interfaceLogList);
+            boolean flag = saveServcie.doSaveInterfaceLog(interfaceLogList);
             if(flag){
                 for (String key : interfaceLogKeys){
                     jedisUtil.del(key);

@@ -152,20 +152,16 @@ public class TableUtil {
         tableName = tableName.toUpperCase();
         StringBuilder sb = new StringBuilder();
 
-        sb.append("CREATE OR REPLACE TRIGGER TIG_" + prefix +"_"+DateUtil.getSringDateWithUnderline()).append(" before").append(wrap);
-        sb.append("insert on " + tableName+"_" + DateUtil.getSringDateWithUnderline() + " for each row when (new.id is null) ").append(wrap);
+        sb.append("CREATE OR REPLACE TRIGGER TIG_" + prefix).append(" before").append(wrap);
+        sb.append("insert on " +getDbo()+"."+ tableName+"_" + DateUtil.getSringDateWithUnderline() + " for each row when (new.id is null) ").append(wrap);
         sb.append("begin ").append(wrap);
-        sb.append("select SEQ_"+prefix+"_"+DateUtil.getSringDateWithUnderline()+".nextval into:new.id from dual; ").append(wrap);
+        sb.append("select "+getDbo()+".SEQ_"+prefix+"_"+DateUtil.getSringDateWithUnderline()+".nextval into:new.id from dual; ").append(wrap);
         sb.append("end").append(wrap);
         return new String(sb);
     }
 
-    /**
-     * 根据日期获取表名
-     * @param tableName
-     * @return
-     */
-    public static String getTableNameByDate(String tableName){
+
+    public static String getDbo(){
         String dboName = "";
 
         if(driverClassName.contains("oracle") || driverClassName.contains("dm")){
@@ -175,7 +171,25 @@ public class TableUtil {
             }
             dboName = dbo[dbo.length - 1];
         }
-        tableName = dboName+"."+tableName.toUpperCase() +"_"+ DateUtil.getSringDateWithUnderline();
+        return dboName;
+    }
+
+    /**
+     * 根据日期获取表名
+     * @param tableName
+     * @return
+     */
+    public static String getTableNameByDate(String tableName){
+//        String dboName = "";
+//
+//        if(driverClassName.contains("oracle") || driverClassName.contains("dm")){
+//            String []dbo = url.split(":");
+//            if(dbo.length == 0){
+//                dbo = url.split("/");
+//            }
+//            dboName = dbo[dbo.length - 1];
+//        }
+        tableName = getDbo()+"."+tableName.toUpperCase() +"_"+ DateUtil.getSringDateWithUnderline();
 
         return tableName;
     }

@@ -184,18 +184,18 @@ public class TestDB {
         list.add("  num_id              varchar2(32) not null,");
         list.add("  sendid              VARCHAR2(320)");
 
-//        System.out.println(DatabaseHelper.createTableByDate("test",list));
-//        System.out.println(DatabaseHelper.execute("test",list,"log"));
+        TableUtil.execute("test",list,"test");
+
     }
 
 
     @Test
     public void testTableUtil(){
        Connection connection =  TableUtil.getConnection();
-       String sql = "select * from ECOLOGY.OPERATE_LOG_2019_04_25";
+       String sql = "select * from ECOLOGY.OPERATE_LOG_2019_04_26";
         try {
             Statement statement = connection.createStatement();
-            ResultSet resultSet =  statement.executeQuery(sql);
+            statement.executeQuery(sql);
 
         } catch (SQLException e) {
             e.printStackTrace();
